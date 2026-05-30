@@ -1,0 +1,6 @@
+requests>=2.31.0
+pyTelegramBotAPI>=4.15.0
+colorama>=0.4.6
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+psutil>=5.9.0
