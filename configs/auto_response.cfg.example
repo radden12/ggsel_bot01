@@ -1,0 +1,21 @@
+; Пример конфига автоответчика GGSelCardinal.
+; Каждая секция — команда/фраза покупателя (сравнение регистронезависимое).
+; Обязательный ключ: response.
+; Плейсхолдеры: $buyer_name, $chat_id, $seller.
+; telegramNotification = on/off — уведомлять ли админов в Telegram о срабатывании.
+
+[!команды]
+response = Доступные команды: !цена, !доставка, !поддержка
+telegramNotification = off
+
+[!цена]
+response = Здравствуйте, $buyer_name! Актуальная цена указана в описании лота.
+telegramNotification = off
+
+[!доставка]
+response = Товар выдаётся автоматически сразу после оплаты заказа.
+telegramNotification = on
+
+[!поддержка]
+response = Опишите проблему, $buyer_name, и мы поможем в ближайшее время.
+telegramNotification = on

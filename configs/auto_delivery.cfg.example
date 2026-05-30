@@ -1,0 +1,16 @@
+; Пример конфига автовыдачи GGSelCardinal.
+; Секция — название лота (как оно приходит от площадки), сравнение регистронезависимое.
+; Обязательный ключ: response.
+; Плейсхолдеры: $buyer_name, $order_id, $lot, $product.
+; productsFileName — файл с товарами в storage/products/ (по одному на строку, выдаются по очереди, FIFO).
+; enabled = on/off — включено ли правило.
+
+[Пример товара]
+response = Спасибо за покупку, $buyer_name! Ваш товар по заказу #$order_id: $product
+productsFileName = example.txt
+enabled = on
+
+[Подписка 1 месяц]
+response = Здравствуйте! Ваш код активации: $product. Приятного использования!
+productsFileName = subscription_1m.txt
+enabled = off

@@ -1,0 +1,26 @@
+; Пример основного конфига GGSelCardinal.
+; Скопируйте в configs/_main.cfg и заполните своими данными,
+; либо просто запустите main.py — мастер первичной настройки создаст файл сам.
+
+[GGSel]
+; Ключ API продавца GGSEL.
+token = YOUR_GGSEL_API_TOKEN
+; Идентификатор продавца (необязательно, определится автоматически).
+seller_id =
+
+[Telegram]
+; Включить Telegram-панель управления (on/off).
+enabled = off
+; Токен бота от @BotFather.
+token =
+; ID администраторов через запятую (узнать у @userinfobot).
+admins =
+
+[Other]
+; Язык интерфейса: ru / en.
+language = ru
+; Интервал опроса площадки в секундах.
+poll_interval = 4
+; Включить автоответчик / автовыдачу (on/off).
+autoresponse = on
+autodelivery = on
