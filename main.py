@@ -1,21 +1,21 @@
 """
-GGSelCardinal — точка входа.
+GGSEL Cardinal — точка входа.
 
-Отвечает за подготовку окружения (каталоги, конфиги, логирование), запуск мастера
-первичной настройки при первом старте и передачу управления ядру :class:`core.GGSelCardinal`.
+Отвечает за подготовку окружения (каталоги, логи), запуск мастера первичной
+настройки при первом старте и передачу управления ядру :class:`core.GGSelCardinal`.
 
 Философия: ``main`` ничего не знает о бизнес-логике. Его задача — собрать окружение и
 корректно стартовать/остановить ядро.
 """
 from __future__ import annotations
 
-import os
-import sys
 import logging
 import logging.config
+import os
+import sys
 
-from Utils import logger as logger_cfg
 from Utils import core_tools
+from Utils import logger as logger_cfg
 
 VERSION = "0.1.0"
 
@@ -36,11 +36,11 @@ MAIN_CONFIG_PATH = os.path.join("configs", "_main.cfg")
 
 
 BANNER = r"""
-   ____  ____           _  ____              _ _             _
-  / ___|/ ___| ___  ___| |/ ___|__ _ _ __ __| (_)_ __   __ _| |
- | |  _| |  _ / __|/ _ \ | |   / _` | '__/ _` | | '_ \ / _` | |
- | |_| | |_| |\__ \  __/ | |__| (_| | | | (_| | | | | | (_| | |
-  \____|\____||___/\___|_|\____\__,_|_|  \__,_|_|_| |_|\__,_|_|
+   ____  ____ ____       _    ____               _ _             _
+  / ___|/ ___/ ___|  ___| |  / ___|__ _ _ __ __| (_)_ __   __ _| |
+ | |  _| |  _\___ \ / _ \ | | |   / _` | '__/ _` | | '_ \ / _` | |
+ | |_| | |_| |___) |  __/ | | |__| (_| | | | (_| | | | | | (_| | |
+  \____|\____|____/ \___|_|  \____\__,_|_|  \__,_|_|_| |_|\__,_|_|
 """
 
 
@@ -57,25 +57,27 @@ def configure_logging() -> None:
 
 def main() -> None:
     if sys.version_info < (3, 10):
-        raise SystemExit("GGSelCardinal requires Python 3.10 or newer.")
+        raise SystemExit("GGSEL Cardinal requires Python 3.10 or newer.")
 
     bootstrap_directories()
     configure_logging()
-    core_tools.set_console_title(f"GGSelCardinal v{VERSION}")
+    core_tools.set_console_title(f"GGSEL Cardinal v{VERSION}")
     print(core_tools.colorize(BANNER, "cyan"))
-    print(core_tools.colorize(f"  GGSelCardinal v{VERSION}\n", "yellow"))
+    print(core_tools.colorize(f"  GGSEL Cardinal v{VERSION} — ассистент продавца GGSEL\n", "yellow"))
 
-    # Ленивая загрузка: импортируем тяжёлые модули только после настройки логов.
+    # Первый запуск: если конфига нет — запускаем мастер настройки.
     if not os.path.exists(MAIN_CONFIG_PATH):
         from first_setup import run_first_setup
         LOGGER.info("Основной конфиг не найден — запускаю мастер первичной настройки.")
         run_first_setup(MAIN_CONFIG_PATH)
 
+    # Ленивая загрузка: тяжёлые модули импортируем после настройки логов.
     from core import GGSelCardinal
 
     instance = GGSelCardinal(version=VERSION)
     try:
         instance.init()
+        instance.print_status()
         instance.run()
     except KeyboardInterrupt:
         LOGGER.warning("Получен сигнал остановки (Ctrl+C). Завершаю работу...")
